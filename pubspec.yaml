@@ -1,0 +1,36 @@
+name: tubes_ui
+description: A new Flutter project.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.1.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  url_launcher: ^6.0.12
+  font_awesome_flutter: ^9.2.0
+  http: ^1.1.0
+  flutter_riverpod: ^2.4.9
+  provider: ^6.0.0
+  shared_preferences: any
+  intl: ^0.17.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  assets:
+    - assets/images/gojohh.jpg
+    - assets/images/promo.jpeg
+    - assets/images/car1.jpeg
+    - assets/images/splash.jpg
+    - assets/flags/US.png
+    - assets/flags/ID.png
+    - assets/flags/JP.png
+    - assets/flags/CN.png
+  uses-material-design: true
