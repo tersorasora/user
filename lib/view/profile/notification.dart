@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_ui/view/profile/profile.dart';
 
 class NotificationPage extends StatefulWidget {
   @override
@@ -19,7 +20,10 @@ class _NotificationPageState extends State<NotificationPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProfilePage()),
+                      );
                     },
                     child: const Icon(Icons.arrow_back),
                   ),

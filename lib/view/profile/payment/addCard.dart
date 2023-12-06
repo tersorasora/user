@@ -3,16 +3,16 @@ import 'package:tubes_ui/view/profile/payment/payment.dart';
 
 class AddCardPage extends StatefulWidget {
   const AddCardPage({super.key});
-  
+
   @override
   _AddCardPageState createState() => _AddCardPageState();
 }
 
 class _AddCardPageState extends State<AddCardPage> {
-  TextEditingController _cardNumberController = TextEditingController();
-  TextEditingController _expiryMonthController = TextEditingController();
-  TextEditingController _expiryYearController = TextEditingController();
-  TextEditingController _cnnController = TextEditingController();
+  final TextEditingController _cardNumberController = TextEditingController();
+  final TextEditingController _expiryMonthController = TextEditingController();
+  final TextEditingController _expiryYearController = TextEditingController();
+  final TextEditingController _cnnController = TextEditingController();
 
   @override
   void dispose() {
@@ -39,7 +39,8 @@ class _AddCardPageState extends State<AddCardPage> {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => PaymentPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const PaymentPage()),
                       );
                     },
                     child: const Icon(Icons.arrow_back),
@@ -64,12 +65,12 @@ class _AddCardPageState extends State<AddCardPage> {
               ),
               const SizedBox(height: 30.0),
               const Text(
-                  'Add credit card',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                  ),
+                'Add credit card',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
                 ),
+              ),
               const SizedBox(height: 20.0),
               buildTextField('Credit card number', _cardNumberController),
               buildTextField('Expiry Month', _expiryMonthController),
@@ -81,9 +82,10 @@ class _AddCardPageState extends State<AddCardPage> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => PaymentPage()),
-                      );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PaymentPage()),
+                    );
                   },
                   child: const Text('Add'),
                 ),

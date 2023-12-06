@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_ui/view/booking.dart';
+import 'package:tubes_ui/view/history/history.dart';
+import 'package:tubes_ui/view/home/bookCar.dart';
 import 'package:tubes_ui/view/home/openCar.dart';
 import 'package:tubes_ui/view/home/popularCity.dart';
 import 'package:tubes_ui/view/profile/profile.dart';
@@ -9,7 +10,7 @@ class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  _HomepageState createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
@@ -21,9 +22,22 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
-  List<Widget> _widgetOptions = <Widget>[
-    HomeView(),
-    BookPage(),
+  late String _selectedCar;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void setSelectedCar(String car) {
+    setState(() {
+      _selectedCar = car;
+    });
+  }
+
+  final List<Widget> _widgetOptions = <Widget>[
+    const HomeView(),
+    const HistoryPage(),
     ProfilePage(),
   ];
 
@@ -38,8 +52,8 @@ class _HomepageState extends State<Homepage> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.directions_car),
-              label: 'Bookings',
+              icon: Icon(Icons.history),
+              label: 'History',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
@@ -190,23 +204,52 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                      'Popular cars near you',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              'Your Cart',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: const Color.fromRGBO(127, 90, 240, 1),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const BookCarPage()),
+                                );
+                              },
+                              child: const Text('Add'),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => OpenCarPage()),
+                              builder: (context) => const OpenCarPage()),
                         );
                       },
                       child: Card(
                         margin: const EdgeInsets.symmetric(vertical: 10),
+                        color: const Color.fromARGB(255, 208, 205, 205),
                         child: Container(
                             width: 200,
                             height: 320,
@@ -237,7 +280,7 @@ class _HomeViewState extends State<HomeView> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                'GR YARIS',
+                                                '_selectedCar',
                                                 style: TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold,
@@ -373,7 +416,7 @@ class _HomeViewState extends State<HomeView> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PopularCityPage()),
+                              builder: (context) => const PopularCityPage()),
                         );
                       },
                       child: Container(

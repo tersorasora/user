@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tubes_ui/client/userClient.dart';
 import 'package:tubes_ui/entity/user.dart';
+import 'package:tubes_ui/view/home/home.dart';
 import 'package:tubes_ui/view/profile/notification.dart';
-import 'package:tubes_ui/view/profile/profile.dart';
+// import 'package:tubes_ui/view/profile/profile.dart';
 // import 'package:intl/intl.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -43,7 +44,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => ProfilePage()),
+                        MaterialPageRoute(builder: (context) => Homepage()),
                       );
                     },
                     child: const Icon(Icons.arrow_back),

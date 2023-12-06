@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PayPage extends StatefulWidget {
-  final String startDateTime; // Data dari BookCarPage: Start Date
-  final String endDateTime; // Data dari BookCarPage: End Date
-  final String pickupLocation; // Data dari BookCarPage: Pickup Location
+  final String startDateTime;
+  final String endDateTime;
+  final String pickupLocation;
 
   const PayPage({
     required this.startDateTime,
@@ -47,7 +47,7 @@ class _PayPageState extends State<PayPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   border: Border.all(color: Colors.grey),
-                  color: Color.fromRGBO(127, 90, 240, 1),
+                  color: const Color.fromRGBO(127, 90, 240, 1),
                 ),
                 padding: const EdgeInsets.all(15.0),
                 child: const Row(
@@ -167,7 +167,10 @@ class _PayPageState extends State<PayPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('MasterCard', style: TextStyle(fontWeight: FontWeight.bold),),
+                              Text(
+                                'MasterCard',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                               Text('**** **** 1234 5678'),
                             ],
                           ),

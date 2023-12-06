@@ -95,7 +95,7 @@ class _PaymentPageState extends State<PaymentPage> {
         onTap: () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => AddCardPage()),
+            MaterialPageRoute(builder: (context) => const AddCardPage()),
           );
         },
       ),

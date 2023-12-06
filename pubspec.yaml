@@ -29,6 +29,7 @@ flutter:
     - assets/images/promo.jpeg
     - assets/images/car1.jpeg
     - assets/images/splash.jpg
+    - assets/images/checkmark.png
     - assets/flags/US.png
     - assets/flags/ID.png
     - assets/flags/JP.png

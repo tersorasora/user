@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:tubes_ui/view/profile/profile.dart';
+import 'package:tubes_ui/view/profile/profile.dart';
 
 class PromoPage extends StatefulWidget {
   @override
@@ -26,7 +26,7 @@ class _PromoPageState extends State<PromoPage> {
                     child: const Icon(Icons.arrow_back),
                   ),
                   const Text(
-                    'Promo',
+                    'PROMOS',
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,

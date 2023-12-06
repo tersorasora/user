@@ -11,6 +11,10 @@ class UserClient {
   static final String url = '192.168.1.7';
   static final String endpoint = '/api_pbp_tubes_sewa_mobil/public/api';
 
+  // url HP (thetering), di command aja jgn di hapus
+  // static final String url = '192.168.43.8';
+  // static final String endpoint = '/api_pbp_tubes_sewa_mobil/public/api';
+
   static Future<List<User>> fetchAll() async {
     try {
       var response = await get(Uri.http(url, endpoint));

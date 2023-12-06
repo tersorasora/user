@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_ui/view/login/login.dart';
 
 class ForgotPass extends StatefulWidget {
   const ForgotPass({super.key});
@@ -17,12 +18,13 @@ class _ForgotPassState extends State<ForgotPass> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // Navigate back to login page
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const LoginPage()));
           },
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -46,8 +48,8 @@ class _ForgotPassState extends State<ForgotPass> {
             const SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(127, 90, 240, 1),
-                  ),
+                backgroundColor: const Color.fromRGBO(127, 90, 240, 1),
+              ),
               onPressed: () {
                 // Navigate to Create New Password Page with email data
                 String email = emailController.text;
@@ -70,7 +72,8 @@ class _ForgotPassState extends State<ForgotPass> {
 class CreateNewPasswordPage extends StatefulWidget {
   final String email;
 
-  const CreateNewPasswordPage({Key? key, required this.email}) : super(key: key);
+  const CreateNewPasswordPage({Key? key, required this.email})
+      : super(key: key);
 
   @override
   _CreateNewPasswordPageState createState() => _CreateNewPasswordPageState();
@@ -126,29 +129,37 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
             const SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(127, 90, 240, 1),
-                  ),
+                backgroundColor: const Color.fromRGBO(127, 90, 240, 1),
+              ),
               onPressed: () {
                 // Validate and change password logic
-                if (passwordController.text.isEmpty || retypePasswordController.text.isEmpty) {
+                if (passwordController.text.isEmpty ||
+                    retypePasswordController.text.isEmpty) {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text('Error'),
-                        content: const Text('Please fill in both password fields.'),
+                        content:
+                            const Text('Please fill in both password fields.'),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: const Text('OK', style: TextStyle(color: Color.fromRGBO(127, 90, 240, 1),),),
+                            child: const Text(
+                              'OK',
+                              style: TextStyle(
+                                color: Color.fromRGBO(127, 90, 240, 1),
+                              ),
+                            ),
                           ),
                         ],
                       );
                     },
                   );
-                } else if (passwordController.text != retypePasswordController.text) {
+                } else if (passwordController.text !=
+                    retypePasswordController.text) {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -171,11 +182,14 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        content: const Text('Your password has been changed. Please retry to Login Again!'),
+                        content: const Text(
+                            'Your password has been changed. Please retry to Login Again!'),
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).popUntil(ModalRoute.withName('/')); // Navigate back to home
+                              Navigator.of(context).popUntil(
+                                  ModalRoute.withName(
+                                      '/')); // Navigate back to home
                             },
                             child: const Text('Confirm'),
                           ),

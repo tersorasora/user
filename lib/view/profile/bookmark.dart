@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_ui/view/home/home.dart';
 import 'package:tubes_ui/view/home/openCar.dart';
 
 class BookmarkPage extends StatefulWidget {
@@ -13,36 +14,39 @@ class _BookmarkPageState extends State<BookmarkPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(Icons.arrow_back),
+          child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Homepage()),
+                    );
+                  },
+                  child: const Icon(Icons.arrow_back),
+                ),
+                const Text(
+                  'Bookmarks',
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const Text(
-                    'Bookmarks',
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(width: 40.0),
-                ],
-              ),
-              const SizedBox(height: 20.0),
-              GestureDetector(
+                ),
+                const SizedBox(width: 40.0),
+              ],
+            ),
+            const SizedBox(height: 20.0),
+            GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => OpenCarPage()),
+                  MaterialPageRoute(builder: (context) => const OpenCarPage()),
                 );
               },
               child: Card(
@@ -193,8 +197,9 @@ class _BookmarkPageState extends State<BookmarkPage> {
                     )),
               ),
             ),
-            ],
-          ),)),
+          ],
+        ),
+      )),
     );
   }
 }
