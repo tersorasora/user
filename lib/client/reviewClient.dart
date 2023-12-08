@@ -1,9 +1,9 @@
 // import 'dart:ffi';
-import 'package:tubes_ui/entity/rating.dart';
+import 'package:tubes_ui/entity/review.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 
-class ratingClient {
+class reviewClient {
   // url HP, di command aja jgn di hapus
   static final String url = '192.168.1.7';
   static final String endpoint = '/api_pbp_tubes_sewa_mobil/public/api';
@@ -15,36 +15,54 @@ class ratingClient {
   // static final String url = '10.0.2.2:8000';
   // static final String endpoint = '/api';
 
-  static Future<List<Rating>> fetchAll() async {
+  static Future<List<Review>> fetchAll() async {
     try {
-      var response = await get(Uri.http(url, "$endpoint/rating"));
+      var response = await get(Uri.http(url, "$endpoint/review"));
+      print('Raw JSON response: ${response.body}');
+      print('Response status code: ${response.statusCode}');
+      if (response.statusCode != 200) {
+        throw Exception('Failed to fetch reviews: ${response.reasonPhrase}');
+      }
+      print("pass");
+      Iterable list = json.decode(response.body)['data'];
+
+      return list.map((e) => Review.fromJson(e)).toList();
+    } catch (e) {
+      print("lewat");
+      return Future.error(e.toString());
+    }
+  }
+
+  static Future<List<Review>> fetchAllByUser(userId) async {
+    try {
+      var response = await get(Uri.http(url, "$endpoint/review/user/$userId"));
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
       Iterable list = json.decode(response.body)['data'];
-      return list.map((e) => Rating.fromJson(e)).toList();
+      return list.map((e) => Review.fromJson(e)).toList();
     } catch (e) {
       return Future.error(e.toString());
     }
   }
 
-  static Future<Rating> find(id) async {
+  static Future<Review> find(id) async {
     try {
-      var response = await get(Uri.http(url, '$endpoint/rating/$id'));
+      var response = await get(Uri.http(url, '$endpoint/review/$id'));
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
-      return Rating.fromJson(json.decode(response.body)['data']);
+      return Review.fromJson(json.decode(response.body)['data']);
     } catch (e) {
       return Future.error(e.toString());
     }
   }
 
-  static Future<Response> create(Rating rating) async {
+  static Future<Response> create(Review review) async {
     try {
-      var response = await post(Uri.http(url, '$endpoint/rating'),
+      var response = await post(Uri.http(url, '$endpoint/review'),
           headers: {"Content-Type": "application/json"},
-          body: rating.toRawJson());
+          body: review.toRawJson());
       print(response.body);
       if (response.statusCode == 200) throw Exception(response.reasonPhrase);
       return response;
@@ -53,11 +71,11 @@ class ratingClient {
     }
   }
 
-  static Future<Response> update(Rating rating) async {
+  static Future<Response> update(Review Review) async {
     try {
-      var response = await put(Uri.http(url, '$endpoint/rating/${rating.id}'),
+      var response = await put(Uri.http(url, '$endpoint/review/${Review.id}'),
           headers: {"Content-Type": "application/json"},
-          body: rating.toRawJson());
+          body: Review.toRawJson());
       print(response.body);
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
       return response;
@@ -66,11 +84,12 @@ class ratingClient {
     }
   }
 
-  static Future<Response> delete(id) async {
+  static Future<Response> destroy(id) async {
     try {
-      var response = await delete(Uri.http(url, '$endpoint/rating/$id'));
+      var response = await delete(Uri.http(url, '$endpoint/review/$id'));
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
+
       return response;
     } catch (e) {
       return Future.error(e.toString());

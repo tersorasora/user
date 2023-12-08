@@ -81,6 +81,21 @@ class CartClient {
     }
   }
 
+  static Future<Response> updateIsReviewed(id) async {
+    try {
+      var response = await put(Uri.http(url, '$endpoint/cart/updateStatus/$id'),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode({"isReviewed": 1}));
+
+      print('kontol masuk ${response.body}');
+      if (response.statusCode != 200) throw Exception(response.reasonPhrase);
+
+      return response;
+    } catch (e) {
+      return Future.error(e.toString());
+    }
+  }
+
   static Future<Response> destroy(id) async {
     try {
       var response = await delete(Uri.http(url, '$endpoint/cart/$id'));

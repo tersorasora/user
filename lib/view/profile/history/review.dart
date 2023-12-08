@@ -59,7 +59,7 @@ class _ReviewPageState extends State<ReviewPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Toyota',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),

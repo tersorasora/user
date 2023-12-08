@@ -6,6 +6,7 @@ import 'package:tubes_ui/view/home/home.dart';
 import 'package:tubes_ui/entity/rating.dart';
 import 'package:tubes_ui/client/ratingClient.dart';
 import 'package:tubes_ui/client/carClient.dart';
+import 'package:tubes_ui/client/cartClient.dart';
 
 class ReviewPage extends StatefulWidget {
   final Cart selectedCart;
@@ -32,11 +33,7 @@ class _ReviewPageState extends State<ReviewPage> {
       var response = await ratingClient.create(newRating);
 
       if (response.statusCode == 201) {
-        setState(() {
-          widget.selectedCart.isReviewed = true;
-        });
-        print('isReviewed after setState: ${widget.selectedCart.isReviewed}');
-        print('Response body: ${response.body}');
+        await CartClient.updateIsReviewed(widget.selectedCart.id ?? 0);
       } else {
         print('Failed to save review: ${response.reasonPhrase}');
       }

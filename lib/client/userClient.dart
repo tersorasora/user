@@ -17,7 +17,7 @@ class UserClient {
 
   static Future<List<User>> fetchAll() async {
     try {
-      var response = await get(Uri.http(url, endpoint));
+      var response = await get(Uri.http(url, "$endpoint/user"));
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 

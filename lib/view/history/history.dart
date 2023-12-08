@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_ui/view/history/review.dart';
-import 'package:tubes_ui/entity/cart.dart';
-import 'package:tubes_ui/client/cartClient.dart';
+import 'package:tubes_ui/client/userClient.dart';
+import 'package:tubes_ui/entity/review.dart';
+import 'package:tubes_ui/client/reviewClient.dart';
+import 'package:tubes_ui/entity/user.dart';
+import 'package:tubes_ui/entity/car.dart';
+import 'package:tubes_ui/client/carClient.dart';
+import 'package:tubes_ui/view/history/myReview.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -12,17 +16,36 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   bool isReviewed = false;
-  List<Cart> cartData = [];
+  List<Review> reviewData = [];
+  List<Car> carData = [];
+  List<User> userData = [];
+  // Car cart = Car();
+  // User user = User();
 
-  void showCart() async {
-    List<Cart> data = await CartClient.fetchAll();
-    setState(() {
-      cartData = data;
-    });
+  void showReview() async {
+    try {
+      List<Review> data = await reviewClient.fetchAll();
+      print('Data before processing: $data');
+
+      List<Car> dataCar = await CarClient.fetchAll();
+      print("aman");
+      List<User> dataUser = await UserClient.fetchAll();
+      print("aman 2");
+
+      setState(() {
+        reviewData = data;
+        carData = dataCar;
+        userData = dataUser;
+      });
+
+      print('Data after processing: $reviewData');
+    } catch (e) {
+      print('Error during data processing: $e');
+    }
   }
 
   void initState() {
-    showCart();
+    showReview();
     super.initState();
   }
 
@@ -35,35 +58,48 @@ class _HistoryPageState extends State<HistoryPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
+              Row(
                 children: [
-                  Center(
+                  const Center(
                     child: Text(
-                      'HISTORY PAYMENT',
+                      'CARS REVIEW',
                       style: TextStyle(
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  SizedBox(width: 40.0),
+                  const SizedBox(width: 100.0),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MyReviewPage()),
+                      );
+                    },
+                    child: const Text(
+                      'My Review',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(127, 90, 240, 1)
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 20.0),
               Expanded(
+                // child: buildPaymentCard(reviewData[0]),
                 child: ListView.builder(
-                  itemCount: cartData.length,
+                  itemCount: reviewData.length,
                   itemBuilder: (context, index) {
-                    Cart cart = cartData[index];
-                    return buildPaymentCard(
-                        cart.carName,
-                        cart.return_date.toString(),
-                        'Rp ${cart.price}',
-                        cart.id.toString(),
-                        cart);
+                    Review review = reviewData[index];
+                    return buildPaymentCard(review);
                   },
                 ),
               ),
+              const SizedBox(height: 8.0),
             ],
           ),
         ),
@@ -71,10 +107,9 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  Widget buildPaymentCard(
-      String? title, String? date, String price, String id, Cart cart) {
+  Widget buildPaymentCard(Review review) {
     return Card(
-      elevation: 3,
+      elevation: 5,
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -85,28 +120,16 @@ class _HistoryPageState extends State<HistoryPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  title!,
+                  carData
+                      .where((element) => element.id_car == review.id_car)
+                      .first
+                      .nama!,
                   style: const TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(30, 25),
-                    backgroundColor: const Color.fromRGBO(127, 90, 240, 1),
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ReviewPage(selectedCart: cart)),
-                    );
-                  },
-                  child: const Text(
-                    'Done',
-                  ),
-                ),
+                const SizedBox(height: 8.0),
               ],
             ),
             const SizedBox(height: 8.0),
@@ -114,11 +137,14 @@ class _HistoryPageState extends State<HistoryPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  date!,
+                  userData
+                      .where((element) => element.id == review.id_user)
+                      .first
+                      .username!,
                   style: const TextStyle(color: Colors.grey),
                 ),
                 const SizedBox(height: 8.0),
-                Text('ID: $id'),
+                Text('RATING: ${review.nilai}'),
               ],
             ),
             const SizedBox(height: 8.0),
@@ -126,76 +152,10 @@ class _HistoryPageState extends State<HistoryPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  price,
+                  review.komentar!,
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 8.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(50, 20),
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(
-                            color: Color.fromRGBO(127, 90, 240, 1)),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          print('test');
-                        });
-                      },
-                      child: cart.isReviewed
-                          ? Row(
-                              children: [
-                                const Icon(Icons.star,
-                                    color: Color.fromRGBO(127, 90, 240, 1)),
-                                const SizedBox(width: 3),
-                                Container(
-                                    width: 25,
-                                    height: 25,
-                                    decoration: BoxDecoration(
-                                      color:
-                                          const Color.fromRGBO(0, 33, 206, 1),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    child: Center(
-                                      child: IconButton(
-                                        iconSize: 12,
-                                        onPressed: () {
-                                          // Tambahkan logika saat tombol edit ditekan
-                                        },
-                                        icon: const Icon(Icons.edit),
-                                      ),
-                                    )),
-                                const SizedBox(width: 3),
-                                Container(
-                                    width: 25,
-                                    height: 25,
-                                    decoration: BoxDecoration(
-                                      color:
-                                          const Color.fromRGBO(216, 0, 39, 1),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    child: Center(
-                                      child: IconButton(
-                                        iconSize: 12,
-                                        onPressed: () {
-                                          // Tambahkan logika saat tombol hapus ditekan
-                                        },
-                                        icon: const Icon(Icons.delete),
-                                      ),
-                                    )),
-                              ],
-                            )
-                          : const Text(
-                              'Review',
-                              style: TextStyle(
-                                  color: Color.fromRGBO(127, 90, 240, 1)),
-                            ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ],

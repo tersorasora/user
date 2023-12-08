@@ -18,12 +18,14 @@ class CarClient {
   static Future<List<Car>> fetchAll() async {
     try {
       var response = await get(Uri.http(url, "$endpoint/car"));
-
+      print('Raw JSON response: ${response.body}');
+      print('Response status code: ${response.statusCode}');
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
-
+      print("pass");
       Iterable list = json.decode(response.body)['data'];
       return list.map((e) => Car.fromJson(e)).toList();
     } catch (e) {
+      print("lewat");
       return Future.error(e.toString());
     }
   }

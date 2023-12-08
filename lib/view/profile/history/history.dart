@@ -83,7 +83,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => ReviewPage()),
+                      MaterialPageRoute(builder: (context) => const ReviewPage()),
                     );
                   },
                   child: const Text(
@@ -134,7 +134,6 @@ class _HistoryPageState extends State<HistoryPage> {
                                 const Icon(Icons.star,
                                     color: Color.fromRGBO(127, 90, 240, 1)),
                                 const SizedBox(width: 3),
-
                                 Container(
                                     width: 25,
                                     height: 25,
@@ -152,7 +151,6 @@ class _HistoryPageState extends State<HistoryPage> {
                                       ),
                                     )),
                                 const SizedBox(width: 3),
-
                                 Container(
                                     width: 25,
                                     height: 25,
